@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour {
 	public float speed = 10.0f;
 
@@ -25,21 +26,20 @@ public class PlayerController : MonoBehaviour {
 		horizontal = Input.GetAxisRaw("Horizontal");
 		vertical = Input.GetAxisRaw("Vertical");
 		targetVelocity = Vector3.zero;
+
+
 	}
 
     private void FixedUpdate(){
 		Move(horizontal, vertical);
+		//updates animation based on input
+		AnimUpdate(horizontal, vertical);
 	}
 
 
 	//changes the characters velocity depending on the input
 	public void Move(float currentHorizontal, float currentVertical){
-		//will set the animation to walking if any arrow key pressed - willl need to seperate out into vert and horizontal
-		if(vertical != 0 || horizontal != 0) {
-			animator.SetBool("isWalking", true);
-		} else {
-			animator.SetBool("isWalking", false);
-		}
+
 
 		////will set velocity in a direction to zero if no input
 		if(vertical == 0) {
@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour {
 			FlipSpriteHorizontal();
 		}
 
-		//movement script, make snappier
 		targetVelocity = new Vector2(currentHorizontal * speed, currentVertical * speed);
 		//clamp velocity so diagonals aren't faster
 		if(vertical != 0 && horizontal != 0) {
@@ -79,8 +78,17 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale = localScale;
 	}
 
-	//will change the sprite to be either the front or back moving sprite
-	public void FlipSpriteVertically(){
+	public void AnimUpdate(float currentHorizontal, float currentVertical)
+	{
+		//will set the animation to walking if any arrow key pressed - willl need to seperate out into vert and horizontal
+		if(currentVertical == 0 && currentHorizontal == 0) {
+			animator.SetBool("isWalking", false);
+		} else {
+			animator.SetBool("isWalking", true);
+		}
 
+		//sets the anim blend tree params
+		animator.SetFloat("xInput", currentHorizontal);
+		animator.SetFloat("yInput", currentVertical);
 	}
 }
