@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour {
 	//remove after testing
 	//public GameObject player;
 	public float speed = 5.0f;
+	public float waitTime = 0.0f;
 
 	bool hitPlayer = false;
 	Rigidbody2D rigidbody;
@@ -16,12 +17,14 @@ public class EnemyController : MonoBehaviour {
 	Vector3 targetVelocity = Vector3.zero;
 	Ray ray;
 	LayerMask mask = 1 << 10;
+	float startWaitTime;
 
 
 	// Use this for initialization
 	void Start () {
 		rigidbody = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
+		startWaitTime = waitTime;
 	}
 	
 	// Update is called once per frame
@@ -58,8 +61,8 @@ public class EnemyController : MonoBehaviour {
 
 	//when the player has been detected, the enemy will move in a straight line towards where it saw them
 	void Move(RaycastHit2D hit){
-		targetVelocity = new Vector2((transform.position.x - hit.point.x) * speed, (transform.position.y - hit.point.y) * speed).normalized * speed;
-		rigidbody.velocity = Vector3.SmoothDamp(rigidbody.velocity, -targetVelocity, ref vel, .05f);
+			targetVelocity = new Vector2((transform.position.x - hit.point.x) * speed, (transform.position.y - hit.point.y) * speed).normalized * speed;
+			rigidbody.velocity = Vector3.SmoothDamp(rigidbody.velocity, -targetVelocity, ref vel, .05f);
 	}
 
 	void FlipSprite(){
@@ -72,11 +75,22 @@ public class EnemyController : MonoBehaviour {
 
 	private void OnCollisionEnter2D(Collision2D collision){
 		rigidbody.velocity = Vector3.zero;
-		hitPlayer = true;
+		//waitTime = startWaitTime;
+		if(collision.gameObject.layer == 8) {
+			hitPlayer = true;
+			//put player death in here
+		}
 	}
 
-	private void OnCollisionExit2D(Collision2D collision)
-	{
+	//private void OnCollisionStay2D(Collision2D collision){
+	//	if(waitTime <= 0) {
+	//		waitTime = startWaitTime;
+	//	} else {
+	//		waitTime -= Time.deltaTime;
+	//	}
+	//}
+
+	private void OnCollisionExit2D(Collision2D collision){
 		if(collision.gameObject.layer == 8) {
 			hitPlayer = false;
 		}
