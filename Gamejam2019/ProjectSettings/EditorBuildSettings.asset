@@ -29,4 +29,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StartingScene.unity
     guid: a05c7539f5576894a9cfe4c9617ffa7d
+  - enabled: 1
+    path: Assets/Scenes/StartCutscene.unity
+    guid: 9e68c14ba3050a145a6eb3e72a29ac73
+  - enabled: 1
+    path: Assets/Scenes/GameOverTxt.unity
+    guid: 862ad5d67781daa41a7fc3bac5ac9210
+  - enabled: 1
+    path: Assets/Scenes/EndScene.unity
+    guid: c6838914d02e781449b00c5e0ea064d2
   m_configObjects: {}

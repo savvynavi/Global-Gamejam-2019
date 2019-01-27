@@ -123,6 +123,7 @@ MonoBehaviour:
   - {fileID: 0}
   waitTime: 2
   startWaitTime: 0
+  isRobot: 0
 --- !u!212 &212784628045013190
 SpriteRenderer:
   m_ObjectHideFlags: 1

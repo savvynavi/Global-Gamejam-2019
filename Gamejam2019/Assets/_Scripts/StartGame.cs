@@ -19,7 +19,8 @@ public class StartGame : MonoBehaviour {
 	// Update is called once per frame
 	void HandleClick(){
 		//rndLvlLoad.NextLevel();
-		SceneManager.LoadScene("StartingScene", LoadSceneMode.Single);
+		SceneManager.LoadScene("StartCutscene", LoadSceneMode.Single);
 
 	}
+
 }

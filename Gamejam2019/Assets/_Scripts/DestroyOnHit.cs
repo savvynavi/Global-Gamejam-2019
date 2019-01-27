@@ -7,7 +7,12 @@ public class DestroyOnHit : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rndLvlLoad = GameObject.FindGameObjectWithTag("Loader").GetComponent<RandomLevelLoad>();
+	}
 
+	private void Update(){
+		if(Input.GetKey("space")) {
+			rndLvlLoad.NextLevel();
+		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision){
@@ -17,7 +22,6 @@ public class DestroyOnHit : MonoBehaviour {
 
 		} else {
 			Destroy(collision.gameObject);
-
 		}
 	}
 }

@@ -7,6 +7,7 @@ public class PatrolEnemy : MonoBehaviour {
 	public Transform[] PatrolPoints;
 	public float waitTime = 2.0f;
 	public float startWaitTime;
+	public bool isRobot = true;
 
 	Animator anim;
 	Rigidbody2D rigidbody;
@@ -23,7 +24,10 @@ public class PatrolEnemy : MonoBehaviour {
 		startWaitTime = waitTime;
 		rigidbody = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
-		anim.SetBool("isWalking", false);
+		if(isRobot == false) {
+			anim.SetBool("isWalking", false);
+
+		}
 		death = GameObject.FindGameObjectWithTag("Loader").GetComponent<Death>();
 	}
 
@@ -49,10 +53,13 @@ public class PatrolEnemy : MonoBehaviour {
 			rigidbody.velocity = Vector3.zero;
 		}
 
-		if(point == 0) {
-			UpdateAnimation(PatrolPoints[point]);
-		} else {
-			UpdateAnimation(PatrolPoints[point - 1]);
+		if(isRobot == false) {
+			if(point == 0) {
+				UpdateAnimation(PatrolPoints[point]);
+			} else {
+				UpdateAnimation(PatrolPoints[point - 1]);
+			}
+
 		}
 
 
@@ -80,7 +87,7 @@ public class PatrolEnemy : MonoBehaviour {
 			FlipSpriteHorizontal();
 		}
 
-
+		
 		if(dir.x == 0 && dir.y == 0) {
 			anim.SetBool("isWalking", false);
 		} else {

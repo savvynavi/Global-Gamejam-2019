@@ -33,7 +33,7 @@ public class RandomLevelLoad : MonoBehaviour {
 
 	public void NextLevel(){
 		if(numOfRounds >= NumOfLevels) {
-			SceneManager.LoadScene("FinalScene", LoadSceneMode.Single);
+			SceneManager.LoadScene("EndScene", LoadSceneMode.Single);
 			return;
 
 		} else {
