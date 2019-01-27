@@ -8,14 +8,23 @@ public class PatrolEnemy : MonoBehaviour {
 	public float waitTime = 2.0f;
 	public float startWaitTime;
 
+	Animator anim;
 	Rigidbody2D rigidbody;
 	int point = 0;
 	bool hitPlayer = false;
 	bool hitWall = false;
+	Death death;
+
+	Transform currentPos;
+	Transform prevPos;
+	bool facingRight = true;
 
 	private void Start(){
 		startWaitTime = waitTime;
 		rigidbody = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
+		anim.SetBool("isWalking", false);
+		death = GameObject.FindGameObjectWithTag("Loader").GetComponent<Death>();
 	}
 
 	private void FixedUpdate(){
@@ -39,6 +48,60 @@ public class PatrolEnemy : MonoBehaviour {
 			transform.position = transform.position;
 			rigidbody.velocity = Vector3.zero;
 		}
+
+		if(point == 0) {
+			UpdateAnimation(PatrolPoints[point]);
+		} else {
+			UpdateAnimation(PatrolPoints[point - 1]);
+		}
+
+
+	}
+
+	public void FlipSpriteHorizontal(){
+		facingRight = !facingRight;
+
+		//flip sprite by multiplying by -1
+		Vector3 localScale = transform.localScale;
+		localScale.x *= -1;
+		transform.localScale = localScale;
+	}
+
+
+	void UpdateAnimation(Transform point){
+		Vector3 heading = point.position - transform.position;
+		var dist = heading.magnitude;
+
+		Vector3 dir = heading / dist;
+
+
+		//gets direction the player is walking
+		if((dir.x > 0 && !facingRight) || (dir.y < 0 && facingRight)) {
+			FlipSpriteHorizontal();
+		}
+
+
+		if(dir.x == 0 && dir.y == 0) {
+			anim.SetBool("isWalking", false);
+		} else {
+			anim.SetBool("isWalking", true);
+		}
+
+		if(dir.x > 0) {
+			anim.SetFloat("xInput", 1.0f);
+		}
+
+		if(dir.x < 0) {
+			anim.SetFloat("xInput", -1.0f);
+		}
+
+		if(dir.y > 0) {
+			anim.SetFloat("yInput", 1.0f);
+		}
+
+		if(dir.y < 0) {
+			anim.SetFloat("yInput", -1.0f);
+		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision){
@@ -47,6 +110,10 @@ public class PatrolEnemy : MonoBehaviour {
 		if(collision.gameObject.layer == 8) {
 			hitPlayer = true;
 			//put player death in here
+
+			//turn off player controls so they can't move, then fade in death screen
+			collision.gameObject.GetComponent<PlayerController>().enabled = false;
+			death.LoadDeathScene();
 		}
 	}
 

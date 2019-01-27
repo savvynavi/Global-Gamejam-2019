@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SceneLoader
   - Loader
+  - DeathScreen
   layers:
   - Default
   - TransparentFX

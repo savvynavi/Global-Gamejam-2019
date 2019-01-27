@@ -16,11 +16,9 @@ public class ReloadScript : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void HandleClick()
-	{
+	void HandleClick(){
 		rndLvlLoad.Reset();
 		SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
-
 	}
 
 }

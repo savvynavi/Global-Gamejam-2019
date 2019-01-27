@@ -12,10 +12,11 @@ public class RandomLevelLoad : MonoBehaviour {
 	List<string> sceneNames;
 
 	List<string> SaveSceneNames;
+	Death death;
 
 	// Use this for initialization
 	void Start () {
-
+		death = GetComponent<Death>();
 		usedSceneNames = new List<string>();
 		sceneNames = new List<string>();
 		SaveSceneNames = new List<string>();
@@ -38,11 +39,12 @@ public class RandomLevelLoad : MonoBehaviour {
 		} else {
 			numOfRounds++;
 		}
-		string sceneToRun = sceneNames[Random.Range(0, sceneNames.Count + 1)];
+		string sceneToRun = sceneNames[Random.Range(0, sceneNames.Count)];
 		sceneNames.Remove(sceneToRun);
 		SceneManager.LoadScene(sceneToRun, LoadSceneMode.Single);
-		
+		//LoadScene(sceneToRun);
 	}
+
 
 	public void Reset(){
 		sceneNames.Clear();

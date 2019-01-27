@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour {
 	Ray ray;
 	LayerMask mask = 1 << 10;
 	float startWaitTime;
+	Death death;
 
 
 	// Use this for initialization
@@ -25,8 +26,10 @@ public class EnemyController : MonoBehaviour {
 		rigidbody = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		startWaitTime = waitTime;
+		death = GameObject.FindGameObjectWithTag("Loader").GetComponent<Death>();
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		targetVelocity = Vector3.zero;
@@ -79,16 +82,12 @@ public class EnemyController : MonoBehaviour {
 		if(collision.gameObject.layer == 8) {
 			hitPlayer = true;
 			//put player death in here
+
+			//turn off player controls so they can't move, then fade in death screen
+			collision.gameObject.GetComponent<PlayerController>().enabled = false;
+			death.LoadDeathScene();
 		}
 	}
-
-	//private void OnCollisionStay2D(Collision2D collision){
-	//	if(waitTime <= 0) {
-	//		waitTime = startWaitTime;
-	//	} else {
-	//		waitTime -= Time.deltaTime;
-	//	}
-	//}
 
 	private void OnCollisionExit2D(Collision2D collision){
 		if(collision.gameObject.layer == 8) {

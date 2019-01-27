@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class StartGame : MonoBehaviour {
@@ -17,6 +18,8 @@ public class StartGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void HandleClick(){
-		rndLvlLoad.NextLevel();
+		//rndLvlLoad.NextLevel();
+		SceneManager.LoadScene("StartingScene", LoadSceneMode.Single);
+
 	}
 }
